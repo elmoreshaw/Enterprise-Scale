@@ -654,9 +654,7 @@
             "management": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-', 'management')]",
             "connectivity": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-', 'connectivity')]",
             "identity": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-', 'identity')]",
-            "lzs": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-', 'landingzones')]",
-            "corp": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-', 'corp')]",
-            "online": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-', 'online')]"
+            "lzs": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-', 'landingzones')]"
         },
         // Declaring scopes that will be used for optional deployments, such as platform components (monitoring, networking, identity), policy assignments, subscription placement etc.
         "scopes": {
@@ -665,9 +663,7 @@
             "managementManagementGroup": "[tenantResourceId('Microsoft.Management/managementGroups/', variables('mgmtGroups').management)]",
             "connectivityManagementGroup": "[tenantResourceId('Microsoft.Management/managementGroups/', variables('mgmtGroups').connectivity)]",
             "identityManagementGroup": "[tenantResourceId('Microsoft.Management/managementGroups/', variables('mgmtGroups').identity)]",
-            "lzsManagementGroup": "[tenantResourceId('Microsoft.Management/managementGroups/', variables('mgmtGroups').lzs)]",
-            "corpManagementGroup": "[tenantResourceId('Microsoft.Management/managementGroups/', variables('mgmtGroups').corp)]",
-            "onlineManagementGroup": "[tenantResourceId('Microsoft.Management/managementGroups/', variables('mgmtGroups').online)]"
+            "lzsManagementGroup": "[tenantResourceId('Microsoft.Management/managementGroups/', variables('mgmtGroups').lzs)]"
         },
         // Declaring all required deployment uri's used for deployments of composite ARM templates for ESLZ
         "azPrivateDnsPolicyMapping": {
@@ -2077,7 +2073,7 @@
             "apiVersion": "2019-10-01",
             "name": "[variables('deploymentNames').privateDnsPolicyDeploymentName]",
             "location": "[deployment().location]",
-            "scope": "[variables('scopes').corpManagementGroup]",
+            "scope": "[variables('scopes').lzsManagementGroup]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').mgmtGroupDeploymentName)]",
                 "[resourceId('Microsoft.Resources/deployments', variables('esLiteDeploymentNames').mgmtGroupLiteDeploymentName)]",
@@ -2260,7 +2256,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
             "name": "[variables('deploymentNames').databricksPipDeploymentName]",
-            "scope": "[variables('scopes').corpManagementGroup]",
+            "scope": "[variables('scopes').lzsManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').dataPolicyDeploymentName)]",
@@ -2288,7 +2284,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
             "name": "[variables('deploymentNames').databricksSkuDeploymentName]",
-            "scope": "[variables('scopes').corpManagementGroup]",
+            "scope": "[variables('scopes').lzsManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').dataPolicyDeploymentName)]",
@@ -2316,7 +2312,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
             "name": "[variables('deploymentNames').databricksVnetDeploymentName]",
-            "scope": "[variables('scopes').corpManagementGroup]",
+            "scope": "[variables('scopes').lzsManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').dataPolicyDeploymentName)]",
@@ -2496,7 +2492,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
             "name": "[variables('deploymentNames').publicEndpointPolicyDeploymentName]",
-            "scope": "[variables('scopes').corpManagementGroup]",
+            "scope": "[variables('scopes').lzsManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').policyDeploymentName)]",
@@ -2870,7 +2866,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
             "name": "[concat(variables('deploymentNames').onlineLzSubs, copyIndex())]",
-            "scope": "[variables('scopes').onlineManagementGroup]",
+            "scope": "[variables('scopes').lzsManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').policyDeploymentName)]",
@@ -2891,7 +2887,7 @@
                 },
                 "parameters": {
                     "targetManagementGroupId": {
-                        "value": "[variables('mgmtGroups').online]"
+                        "value": "[variables('mgmtGroups').lzs]"
                     },
                     "subscriptionId": {
                         "value": "[concat(parameters('onlineLzSubscriptionId')[copyIndex()])]"
@@ -2905,7 +2901,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
             "name": "[concat(variables('deploymentNames').corpLzSubs, copyIndex())]",
-            "scope": "[variables('scopes').corpManagementGroup]",
+            "scope": "[variables('scopes').lzsManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').policyDeploymentName)]",
@@ -2926,7 +2922,7 @@
                 },
                 "parameters": {
                     "targetManagementGroupId": {
-                        "value": "[variables('mgmtGroups').corp]"
+                        "value": "[variables('mgmtGroups').lzs]"
                     },
                     "subscriptionId": {
                         "value": "[concat(parameters('corpLzSubscriptionId')[copyIndex()])]"
@@ -2961,7 +2957,7 @@
                 },
                 "parameters": {
                     "targetManagementGroupId": {
-                        "value": "[variables('mgmtGroups').corp]"
+                        "value": "[variables('mgmtGroups').lzs]"
                     },
                     "subscriptionId": {
                         "value": "[parameters('corpConnectedLzSubscriptionId')[copyIndex()].subs]"

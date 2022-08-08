@@ -18,16 +18,6 @@
             "metadata": {
                 "description": "Management groups for platform specific purposes, such as management, networking, identity etc."
             }
-        },
-        "landingZoneMgs": {
-            "type": "array",
-            "defaultValue": [
-                "online",
-                "corp"
-            ],
-            "metadata": {
-                "description": "These are the landing zone management groups."
-            }
         }
     },
     "variables": {
@@ -138,29 +128,6 @@
                 "details": {
                     "parent": {
                         "id": "[tenantResourceId('Microsoft.Management/managementGroups/', variables('enterpriseScaleManagementGroups').platform)]"
-                    }
-                }
-            }
-        },
-        {
-            // Create child management groups for landing zones
-            "condition": "[not(empty(parameters('landingZoneMgs')))]",
-            "type": "Microsoft.Management/managementGroups",
-            "apiVersion": "2020-05-01",
-            "scope": "/",
-            "name": "[concat(parameters('topLevelManagementGroupPrefix'), '-', parameters('landingZoneMgs')[copyIndex()])]",
-            "dependsOn": [
-                "[tenantResourceId('Microsoft.Management/managementGroups/', variables('enterpriseScaleManagementGroups').landingZone)]"
-            ],
-            "copy": {
-                "name": "lzMgCopy",
-                "count": "[length(parameters('landingZoneMgs'))]"
-            },
-            "properties": {
-                "displayName": "[concat(parameters('topLevelManagementGroupPrefix'), '-', parameters('landingZoneMgs')[copyIndex()])]",
-                "details": {
-                    "parent": {
-                        "id": "[tenantResourceId('Microsoft.Management/managementGroups/', variables('enterpriseScaleManagementGroups').landingZone)]"
                     }
                 }
             }
