@@ -654,7 +654,7 @@
             "management": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-', 'management')]",
             "connectivity": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-', 'connectivity')]",
             "identity": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-', 'identity')]",
-            "lzs": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-', 'landingzones')]"
+            "lzs": "[concat(parameters('enterpriseScaleCompanyPrefix'), '-', 'application')]"
         },
         // Declaring scopes that will be used for optional deployments, such as platform components (monitoring, networking, identity), policy assignments, subscription placement etc.
         "scopes": {

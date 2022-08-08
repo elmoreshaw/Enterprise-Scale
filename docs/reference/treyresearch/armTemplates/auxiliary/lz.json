@@ -27,7 +27,7 @@
         },
         "targetManagementGroup": {
             "type": "string",
-            "defaultValue": "landingzones",
+            "defaultValue": "application",
             "metadata": {
                 "description": "Name of the Landing Zones' Management Group (landingzones, corp, online) where the Policies will be applied to."
             }
